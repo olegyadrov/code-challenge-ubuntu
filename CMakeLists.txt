@@ -9,9 +9,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core)
 
-set(SOURCES main.cpp)
+set(HEADERS UbuntuReleaseInfoProvider.h)
+set(SOURCES UbuntuReleaseInfoProvider.cpp main.cpp)
 
-add_executable(code-challenge-ubuntu ${SOURCES})
+add_executable(code-challenge-ubuntu ${HEADERS} ${SOURCES})
 target_link_libraries(code-challenge-ubuntu Qt6::Core)
 
 include(GNUInstallDirs)
