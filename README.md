@@ -17,3 +17,33 @@ It is recommended to build the project using a CMakeLists.txt and cmake and it s
 Be sure to document the methods. The completed assignment should be a tarball, including build instructions in a README and ideally including a git repository to show the different development steps taken.
 
 If you find the requirements are open to some interpretation, that is intentional and please use your best judgment on the design and implementation and explain your decisions where necessary.
+
+# Build instructions
+
+```
+mkdir build
+cmake -DCMAKE_PREFIX_PATH=<qt-installation-dir> -S ./code-challenge-ubuntu -B ./build
+cd build
+make
+```
+
+# Usage
+
+```
+./code-challenge-ubuntu [options]
+
+Options:
+  -c            Print the current Ubuntu LTS version
+  -h <release>  Print the sha256 of the disk1.img item of a given Ubuntu release
+  -r            Print a list of all currently supported Ubuntu releases
+```
+
+# Notes
+
+For this project, I chose the Qt framework for its comprehensive benefits:
+
+- Cross-platform support: ensures seamless operation across Linux, macOS, and Windows.
+- Network and JSON capabilities: facilitates easy handling of network requests and JSON parsing, crucial for fetching the Ubuntu Cloud release and image information.
+- CMake compatibility: aligns with the project's build system recommendation, simplifying the build process across different platforms.
+
+While aware that this choice might seem to limit opportunities to showcase extensive use of the standard C++ library and modern C++ features, Qt's efficiency in network communication, JSON processing, and its cross-platform nature make it an ideal choice for this specific task. The decision was made based on project requirements, not a preference to avoid modern C++ practices. If necessary, I am fully prepared to adapt to alternative libraries or approaches that adhere more closely to the latest C++ standards.
