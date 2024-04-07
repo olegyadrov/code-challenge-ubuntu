@@ -68,18 +68,18 @@ QList<QString> UbuntuReleaseInfoProvider::getSupportedReleases()
 {
     if (m_document.isNull())
     {
-        return QList<QString>();
+        return {};
     }
     QList<QString> supportedReleases;
-    QJsonObject productsJson = m_document.object()[JSON_KEY_PRODUCTS].toObject();
-    QList<QString> products = productsJson.keys();
-    for (const QString& product : products)
+    const auto productsJson = m_document.object()[JSON_KEY_PRODUCTS].toObject();
+    const auto products = productsJson.keys();
+    for (const auto& product : products)
     {
         if (!product.endsWith(TARGET_RELEASE_ARCHITECTURE))
         {
             continue;
         }
-        QJsonObject productJson = productsJson[product].toObject();
+        const auto productJson = productsJson[product].toObject();
         if (productJson[JSON_KEY_SUPPORTED].toBool())
         {
             supportedReleases.push_back(productJson[JSON_KEY_RELEASE_TITLE].toString());
@@ -92,51 +92,56 @@ QString UbuntuReleaseInfoProvider::getCurrentLtsVersion()
 {
     if (m_document.isNull())
     {
-        return QString();
+        return {};
     }
-    QJsonObject productsJson =  m_document.object()[JSON_KEY_PRODUCTS].toObject();
-    QList<QString> products = productsJson.keys();
-    for (const QString& product : products)
+    const auto productsJson =  m_document.object()[JSON_KEY_PRODUCTS].toObject();
+    const auto products = productsJson.keys();
+    for (const auto& product : products)
     {
         if (!product.endsWith(TARGET_RELEASE_ARCHITECTURE))
         {
             continue;
         }
-        QJsonObject productJson = productsJson[product].toObject();
-        QList<QString> aliases = productJson[JSON_KEY_ALIASES].toString().split(',');
+        const auto productJson = productsJson[product].toObject();
+        const auto aliases = productJson[JSON_KEY_ALIASES].toString().split(',');
         if (aliases.contains(ALIAS_LTS) && aliases.contains(ALIAS_DEFAULT))
         {
             return productJson[JSON_KEY_VERSION].toString();
         }
     }
-    return QString();
+    return {};
 }
 
 QString UbuntuReleaseInfoProvider::getReleaseSha256(const QString& release)
 {
     if (m_document.isNull())
     {
-        return QString();
+        return {};
     }
-    QJsonObject productsJson = m_document.object()[JSON_KEY_PRODUCTS].toObject();
-    QList<QString> products = productsJson.keys();
-    for (const QString& product : products)
+    const auto productsJson = m_document.object()[JSON_KEY_PRODUCTS].toObject();
+    const auto products = productsJson.keys();
+    for (const auto& product : products)
     {
         if (!product.endsWith(TARGET_RELEASE_ARCHITECTURE))
         {
             continue;
         }
-        QJsonObject productJson = productsJson[product].toObject();
+        const auto productJson = productsJson[product].toObject();
         if (productJson[JSON_KEY_VERSION].toString() != release)
         {
             continue;
         }
-        QList<QString> versions = productJson[JSON_KEY_VERSIONS].toObject().keys();
+        const auto versions = productJson[JSON_KEY_VERSIONS].toObject().keys();
+        if (versions.empty())
+        {
+            qWarning() << QStringLiteral("Release %1 has no versions (invalid JSON data?)");
+            return {};
+        }
         return productJson[JSON_KEY_VERSIONS].toObject()
             [versions.first()].toObject()
             [JSON_KEY_ITEMS].toObject()
             [JSON_KEY_DISK1IMG].toObject()
             [JSON_KEY_SHA256].toString();
     }
-    return QString();
+    return {};
 }
