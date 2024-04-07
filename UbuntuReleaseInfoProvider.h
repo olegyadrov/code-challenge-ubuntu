@@ -1,3 +1,4 @@
+#include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
@@ -22,4 +23,5 @@ private slots:
 private:
     QNetworkAccessManager* m_qnamInstance;
     QNetworkReply* m_reply;
+    QJsonDocument m_document;
 };

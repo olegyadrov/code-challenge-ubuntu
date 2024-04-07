@@ -37,10 +37,18 @@ void UbuntuReleaseInfoProvider::processReply()
         m_reply = nullptr;
         return;
     }
-    QString json = m_reply->readAll();
-    qDebug() << json;
+    QJsonParseError jsonParseError;
+    m_document = QJsonDocument::fromJson(m_reply->readAll(), &jsonParseError);
     m_reply->deleteLater();
     m_reply = nullptr;
+    if (jsonParseError.error == QJsonParseError::NoError)
+    {
+        emit finished();
+    }
+    else
+    {
+        emit errorOccurred(jsonParseError.errorString());
+    }
 }
 
 QList<QString> UbuntuReleaseInfoProvider::getSupportedReleases()
