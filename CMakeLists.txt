@@ -7,13 +7,13 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Core Network)
 
 set(HEADERS UbuntuReleaseInfoProvider.h)
 set(SOURCES UbuntuReleaseInfoProvider.cpp main.cpp)
 
 add_executable(code-challenge-ubuntu ${HEADERS} ${SOURCES})
-target_link_libraries(code-challenge-ubuntu Qt6::Core)
+target_link_libraries(code-challenge-ubuntu Qt6::Core Qt6::Network)
 
 include(GNUInstallDirs)
 install(TARGETS code-challenge-ubuntu

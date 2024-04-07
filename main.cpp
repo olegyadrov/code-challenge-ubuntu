@@ -6,7 +6,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
 
-    UbuntuReleaseInfoProvider infoProvider;
+    QNetworkAccessManager qnamInstance;
+    UbuntuReleaseInfoProvider infoProvider(&qnamInstance);
     QObject::connect(&infoProvider, &UbuntuReleaseInfoProvider::finished, [&infoProvider]()
     {
 

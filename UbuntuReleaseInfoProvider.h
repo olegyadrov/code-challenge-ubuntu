@@ -1,11 +1,12 @@
-#include <QObject>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 class UbuntuReleaseInfoProvider: public QObject
 {
     Q_OBJECT
 
 public:
-    UbuntuReleaseInfoProvider(QObject* parent = nullptr);
+    UbuntuReleaseInfoProvider(QNetworkAccessManager* qnamInstance, QObject* parent = nullptr);
     void fetch();
     QList<QString> getSupportedReleases();
     QString getCurrentLtsVersion();
@@ -17,4 +18,8 @@ signals:
 
 private slots:
     void processReply();
+
+private:
+    QNetworkAccessManager* m_qnamInstance;
+    QNetworkReply* m_reply;
 };
